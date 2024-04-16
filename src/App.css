@@ -7,6 +7,58 @@
   pointer-events: none;
 }
 
+.app-container {
+  position: relative;
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 250px;
+    background: #fff;
+    padding: 1em;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 400;
+
+    .legend {
+      margin-top: 1em;
+      .category {
+        display: flex;
+        align-items: center;
+
+        .color-box {
+          width: 1em;
+          height: 1em;
+          margin-right: 0.5em;
+        }
+        
+        .alimentacao { background: #FF0000; }
+        .tecnologia { background: #0000FF; }
+      }
+    }
+  }
+
+  .map-container {
+    height: 100vh;
+    width: calc(100vw - 250px);
+    position: absolute;
+    left: 250px;
+  }
+
+  .map-controls {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    button {
+      padding: 0.5em;
+      margin: 0 0.5em;
+      background: #FFF;
+      border: 1px solid #CCC;
+      cursor: pointer;
+    }
+  }
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
