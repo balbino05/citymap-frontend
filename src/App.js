@@ -9,8 +9,9 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/points');
-        console.log('Dados recebidos:', response.data);
+        const response = await axios.get('http://localhost:8000/api/category-points');
+        const data = response.data;
+        console.log(data);
         setData(response.data);
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
@@ -23,7 +24,7 @@ function App() {
   // Função para enviar dados para a API
   const addPoint = async (point) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/points', point);
+      const response = await axios.post('http://localhost:8000/api/interest-points', point);
       // Atualizar a lista de pontos
       setData([...data, response.data]);
     } catch (error) {
@@ -36,11 +37,10 @@ function App() {
       <h2>Projeto CityMap</h2>
       {data.map(point => (
         <div key={point.id}>
-          <h2>{point.name}</h2>
-          <p>{point.address}</p>
+          <h2>{point.category}</h2>
         </div>
       ))}
-      <button onClick={() => addPoint({ name: 'Novo Ponto', address: 'Endereço Exemplo', latitude: 34.05, longitude: -118.25, category: 'Tecnologia' })}>
+      <button onClick={() => addPoint({ name: 'Novo Ponto3', address: 'Endereço Exemplo2', latitude: 35.05, longitude: -118.25, category: 'Alimentaçao' })}>
         Adicionar Ponto
       </button>
       <MapComponent points={data} />
