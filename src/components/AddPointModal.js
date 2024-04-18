@@ -10,14 +10,18 @@ const AddPointModal = ({ visible, onSubmit, onCancel }) => {
     });
   };
 
+  const handleCancel = () => {
+    form.resetFields();
+    window.location.reload(true);
+  }
+
   return (
     <Modal
       title="Add New Point"
       visible={visible}
       onOk={handleSubmit}
-      onCancel={onCancel}
       footer={[
-        <Button key="back" onClick={onCancel}>
+        <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>,
         <Button key="submit" type="primary" onClick={handleSubmit}>
@@ -32,7 +36,15 @@ const AddPointModal = ({ visible, onSubmit, onCancel }) => {
         <Form.Item name="address" label="Address" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        {/* Assuma que as coordenadas são preenchidas automaticamente */}
+        <Form.Item name="latitude" label="Latitude" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="longitude" label="Longitude" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="category" label="Category" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
       </Form>
     </Modal>
   );

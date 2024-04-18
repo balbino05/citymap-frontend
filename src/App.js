@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import MapComponent from './components/MapComponent';
+import AddPointModal from './components/AddPointModal';
 import axios from 'axios';
 
 function App() {
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
 
   // Função para carregar dados da API
   useEffect(() => {
@@ -43,6 +45,10 @@ function App() {
     }
   };
 
+  const showModal = async () => {
+    setOpen(true);
+  };
+
   return (
     <div>
       <h2>Projeto CityMap</h2>
@@ -54,9 +60,10 @@ function App() {
       </button>
         </div>
       ))}
-      <button onClick={() => addPoint({ name: 'Novo Ponto3', address: 'Endereço Exemplo2', latitude: 35.05, longitude: -118.25, category: 'Alimentaçao' })}>
+      <button onClick={showModal}>
         Adicionar Ponto
       </button>
+      <AddPointModal onSubmit={addPoint} visible={open} />
       <MapComponent points={data} />
     </div>
   );
