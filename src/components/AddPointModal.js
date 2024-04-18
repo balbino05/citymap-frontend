@@ -20,6 +20,7 @@ const AddPointModal = ({ visible, onSubmit, onCancel }) => {
       title="Add New Point"
       visible={visible}
       onOk={handleSubmit}
+      onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
