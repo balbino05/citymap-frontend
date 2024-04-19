@@ -6,6 +6,7 @@ import axios from 'axios';
 function App() {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
+  const[points, setPoints] = useState([]);
 
   // Função para carregar dados da API
   useEffect(() => {
@@ -13,6 +14,8 @@ function App() {
       try {
         const response = await axios.get('http://localhost:8000/api/category-points');
         setData(response.data);
+        const pointsResponse = await axios.get('http://localhost:8000/api/interest-points');
+        setPoints(pointsResponse.data);
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
       }
@@ -24,9 +27,7 @@ function App() {
   // Função para enviar dados para a API
   const addPoint = async (point) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/interest-points', point);
-      // Atualizar a lista de pontos
-      setData([...data, response.data]);
+      await axios.post('http://localhost:8000/api/interest-points', point);
     } catch (error) {
       console.error('Erro ao adicionar ponto:', error);
     }
@@ -35,11 +36,9 @@ function App() {
   // funçao para filtra a categoria
   const filterCategory = async (category) => {
     try{
-      
-      const response = await axios.get('http://localhost:8000/api/category', category);
-      console.log(response)
+      const response = await axios.post('http://localhost:8000/api/category', category);
       // Atualizar a lista de pontos
-      setData([...data, response.data]);
+      setPoints(response.data);
     } catch (error) {
       console.error('Erro ao selecionar categoria:', error);
     }
@@ -52,10 +51,10 @@ function App() {
   return (
     <div>
       <h2>Projeto CityMap</h2>
-      {data.map(point => (
-        <div key={point.id}>
-          <h2>{point.category}</h2>
-          <button onClick={() => filterCategory({ category: point.category })}>
+      {data.map(category => (
+        <div key={category.id}>
+          <h2>{category.name}</h2>
+          <button onClick={() => filterCategory(category)}>
         Selecionar a categoria
       </button>
         </div>
@@ -64,7 +63,7 @@ function App() {
         Adicionar Ponto
       </button>
       <AddPointModal onSubmit={addPoint} visible={open} />
-      <MapComponent points={data} />
+      <MapComponent points={points}/>
     </div>
   );
 }

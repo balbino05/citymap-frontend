@@ -1,7 +1,22 @@
 import { Modal, Form, Input, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AddPointModal = ({ visible, onSubmit, onCancel }) => {
   const [form] = Form.useForm();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/category-points');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
@@ -14,6 +29,8 @@ const AddPointModal = ({ visible, onSubmit, onCancel }) => {
     form.resetFields();
     window.location.reload(true);
   }
+
+
 
   return (
     <Modal
@@ -44,8 +61,16 @@ const AddPointModal = ({ visible, onSubmit, onCancel }) => {
           <Input />
         </Form.Item>
         <Form.Item name="category" label="Category" rules={[{ required: true }]}>
-          <Input />
+          <select name='category' label="Category" options={categories}>
+          <option value="0">Select a category</option>
+          {categories.map(category => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
         </Form.Item>
+        
       </Form>
     </Modal>
   );
